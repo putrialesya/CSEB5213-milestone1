@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Booking #{{ booking.id }} — Gather{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('my_bookings') }}">← My bookings</a>
+<div class="receipt">
+  <div class="receipt-top"><p class="eyebrow">GATHER / BOOKING RECEIPT</p><span class="status status-{{ booking.payment_status }}">{{ booking.payment_status }}</span></div>
+  {% if booking.payment_status == 'paid' %}<div class="success-mark">✓</div>{% else %}<div class="pending-mark">!</div>{% endif %}
+  <h1>{{ 'You’re on the list!' if booking.payment_status == 'paid' else 'Booking not confirmed' }}</h1>
+  <p class="muted">{{ 'Your simulated payment was successful. Keep these details for your records.' if booking.payment_status == 'paid' else 'This booking is not paid. You can browse events to make a new booking.' }}</p>
+  <div class="receipt-event"><p class="eyebrow">EVENT</p><h2>{{ booking.title }}</h2><p>{{ booking.event_date|pretty_date }}</p><p>{{ booking.venue }}</p></div>
+  <div class="summary-line"><span>Booking number</span><strong>#{{ booking.id }}</strong></div><div class="summary-line"><span>Tickets</span><strong>{{ booking.quantity }}</strong></div><div class="summary-line"><span>Payment reference</span><strong>{{ booking.payment_reference or '—' }}</strong></div><div class="summary-line total-line"><span>Total</span><strong>{{ booking.total|money }}</strong></div>
+  <a class="button button-dark full" href="{{ url_for('my_bookings') }}">Back to my bookings ↗</a>
+</div>
+{% endblock %}

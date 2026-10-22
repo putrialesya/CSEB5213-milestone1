@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}My bookings — Gather{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">YOUR PLANS</p><h1 class="page-title">My bookings<span>.</span></h1><p class="muted">All your ticket details, together in one place.</p></div>
+{% if bookings %}
+<div class="booking-list">
+{% for booking in bookings %}
+<a class="booking-row" href="{{ url_for('booking_detail', booking_id=booking.id) }}"><div class="booking-date-box"><strong>{{ booking.event_date[8:10] }}</strong><span>{{ booking.event_date[5:7] }}</span></div><div class="booking-main"><h3>{{ booking.title }}</h3><p>{{ booking.event_date|pretty_date }} · {{ booking.quantity }} ticket{{ '' if booking.quantity == 1 else 's' }}</p></div><div class="booking-right"><strong>{{ booking.total|money }}</strong><span class="status status-{{ booking.payment_status }}">{{ booking.payment_status }}</span></div><span class="row-arrow">↗</span></a>
+{% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>No bookings yet</h3><p>Your next good memory is only a ticket away.</p><a class="button button-dark" href="{{ url_for('index') }}">Browse events ↗</a></div>
+{% endif %}
+{% endblock %}

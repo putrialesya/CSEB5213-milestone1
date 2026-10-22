@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Discover events — Gather{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">GOOD THINGS HAPPEN TOGETHER</p>
+  <h1>Find your next<br><span>good memory.</span></h1>
+  <p class="hero-copy">Discover experiences, meet your people, and save your seat.</p>
+  <a class="button button-dark" href="#events">Explore events <span aria-hidden="true">↘</span></a>
+  <div class="hero-stamp">YOUR<br>NEXT<br>STORY</div>
+</section>
+<section id="events" class="section-head">
+  <div><p class="eyebrow">THE LINEUP</p><h2>Upcoming events</h2></div>
+  <span class="muted">{{ events|length }} event{{ '' if events|length == 1 else 's' }} to explore</span>
+</section>
+{% if events %}
+<div class="event-grid">
+  {% for event in events %}
+  <article class="event-card">
+    <div class="event-art art-{{ loop.index0 % 3 }}">
+      <span class="art-index">0{{ loop.index }}</span>
+      <span class="art-word">{{ ['LIVE','IDEAS','LOCAL'][loop.index0 % 3] }}</span>
+      <span class="art-circle"></span>
+    </div>
+    <div class="event-card-body">
+      <p class="event-date">{{ event.event_date|pretty_date }}</p>
+      <h3>{{ event.title }}</h3>
+      <p class="event-venue">⌖ {{ event.venue }}</p>
+      <p class="event-description">{{ event.description }}</p>
+      <div class="card-bottom"><strong>{{ event.price|money }}</strong><a class="text-link" href="{{ url_for('event_detail', event_id=event.id) }}">View event ↗</a></div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>No events yet</h3><p>Check back soon for something exciting.</p></div>
+{% endif %}
+{% endblock %}

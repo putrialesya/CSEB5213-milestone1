@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Create account — Gather{% endblock %}
+{% block content %}
+<div class="auth-wrap"><div class="auth-intro"><p class="eyebrow">JOIN THE CROWD</p><h1>Your next story<br>starts here.</h1><p>Create an account to reserve tickets and keep all your plans in one place.</p></div>
+<form class="form-card" method="post">
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+  <p class="eyebrow">GET STARTED</p><h2>Create account</h2>
+  <label>Full name<input name="name" autocomplete="name" required maxlength="100" value="{{ request.form.get('name','') }}"></label>
+  <label>Email address<input type="email" name="email" autocomplete="email" required value="{{ request.form.get('email','') }}"></label>
+  <label>Password<input type="password" name="password" autocomplete="new-password" minlength="8" required><small>At least 8 characters.</small></label>
+  <button class="button button-dark full" type="submit">Create account ↗</button>
+  <p class="form-foot">Already registered? <a href="{{ url_for('login') }}">Log in</a></p>
+</form></div>
+{% endblock %}

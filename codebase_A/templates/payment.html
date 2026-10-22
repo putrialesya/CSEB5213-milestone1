@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Simulated payment — Gather{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('my_bookings') }}">← My bookings</a>
+<div class="checkout-wrap"><div><p class="eyebrow">LAST STEP</p><h1 class="page-title">Confirm your<br><span>good time.</span></h1><p class="muted">This is a demo checkout. No real payment will be taken.</p>
+<div class="payment-note"><span class="payment-icon">◎</span><div><strong>Secure demo checkout</strong><p>Choose an outcome below to test the booking flow.</p></div></div></div>
+<div class="form-card order-card"><p class="eyebrow">ORDER SUMMARY</p><h2>{{ booking.title }}</h2><p class="muted">{{ booking.event_date|pretty_date }}</p><p class="muted">{{ booking.venue }}</p><div class="summary-line"><span>Tickets</span><strong>{{ booking.quantity }}</strong></div><div class="summary-line total-line"><span>Total</span><strong>{{ booking.total|money }}</strong></div>
+<form method="post" class="payment-actions"><input type="hidden" name="_csrf_token" value="{{ csrf_token }}"><button class="button button-dark full" name="payment_action" value="success">Simulate successful payment ✓</button><button class="button button-outline full" name="payment_action" value="fail">Simulate declined payment</button></form>
+<p class="fine-print">Do not enter real card details. This demo does not connect to a payment gateway.</p></div></div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ event.title }} — Gather{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('index') }}">← All events</a>
+<div class="event-detail-layout">
+  <div><div class="detail-art"><span class="eyebrow">MAKE IT A MOMENT</span><span class="detail-art-word">BE<br>THERE.</span><span class="art-circle"></span></div>
+  <p class="eyebrow top-gap">ABOUT THIS EVENT</p><h1 class="detail-title">{{ event.title }}</h1><p class="detail-description">{{ event.description }}</p>
+  <div class="detail-info"><div><span>DATE & TIME</span><strong>{{ event.event_date|pretty_date }}</strong></div><div><span>LOCATION</span><strong>{{ event.venue }}</strong></div></div></div>
+  <aside class="booking-card"><p class="eyebrow">SAVE YOUR SPOT</p><div class="price-large">{{ event.price|money }} <small>/ ticket</small></div><p class="availability">{{ remaining }} ticket{{ '' if remaining == 1 else 's' }} remaining</p>
+  {% if remaining > 0 %}
+  <form method="post" action="{{ url_for('book', event_id=event.id) }}">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+    <label>Number of tickets<select name="quantity">{% for n in range(1, [10, remaining]|min + 1) %}<option value="{{ n }}">{{ n }} ticket{{ '' if n == 1 else 's' }}</option>{% endfor %}</select></label>
+    <button class="button button-dark full" type="submit">Book tickets ↗</button>
+  </form>
+  {% else %}<p class="sold-out">This event is sold out.</p>{% endif %}
+  <p class="fine-print">Payment is simulated for this demo. No real money or card details are collected.</p></aside>
+</div>
+{% endblock %}

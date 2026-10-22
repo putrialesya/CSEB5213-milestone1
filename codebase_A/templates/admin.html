@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Admin dashboard — Gather{% endblock %}
+{% block content %}
+<div class="admin-heading"><div><p class="eyebrow">CONTROL ROOM</p><h1 class="page-title">Event dashboard<span>.</span></h1><p class="muted">Manage your lineup and keep track of ticket sales.</p></div><a class="button button-dark" href="{{ url_for('event_new') }}">+ Create event</a></div>
+<section class="admin-section"><div class="section-head"><div><p class="eyebrow">YOUR LINEUP</p><h2>Events</h2></div><span class="muted">{{ events|length }} total</span></div>
+<div class="table-wrap"><table><thead><tr><th>Event</th><th>Date</th><th>Tickets sold</th><th>Price</th><th>Actions</th></tr></thead><tbody>
+{% for event in events %}<tr><td><strong>{{ event.title }}</strong><small>{{ event.venue }}</small></td><td>{{ event.event_date|pretty_date }}</td><td>{{ event.sold }} / {{ event.capacity }}</td><td>{{ event.price|money }}</td><td><div class="table-actions"><a href="{{ url_for('event_edit', event_id=event.id) }}">Edit</a><form method="post" action="{{ url_for('event_delete', event_id=event.id) }}" onsubmit="return confirm('Delete this event? Events with booking records cannot be deleted.');"><input type="hidden" name="_csrf_token" value="{{ csrf_token }}"><button type="submit" class="danger-link">Delete</button></form></div></td></tr>{% endfor %}
+</tbody></table></div></section>
+<section class="admin-section"><div class="section-head"><div><p class="eyebrow">RECENT ACTIVITY</p><h2>Latest bookings</h2></div></div>
+{% if bookings %}<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Event</th><th>Tickets</th><th>Total</th><th>Status</th></tr></thead><tbody>{% for b in bookings %}<tr><td>{{ b.customer }}</td><td>{{ b.title }}</td><td>{{ b.quantity }}</td><td>{{ b.total|money }}</td><td><span class="status status-{{ b.payment_status }}">{{ b.payment_status }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted">No bookings yet.</p>{% endif %}
+</section>
+{% endblock %}

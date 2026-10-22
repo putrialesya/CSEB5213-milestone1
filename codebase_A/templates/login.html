@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Log in — Gather{% endblock %}
+{% block content %}
+<div class="auth-wrap"><div class="auth-intro"><p class="eyebrow">WELCOME BACK</p><h1>Good to see<br>you again.</h1><p>Your saved plans and upcoming experiences are waiting.</p></div>
+<form class="form-card" method="post">
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+  <p class="eyebrow">YOUR ACCOUNT</p><h2>Log in</h2>
+  <label>Email address<input type="email" name="email" autocomplete="email" required value="{{ request.form.get('email','') }}"></label>
+  <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+  <button class="button button-dark full" type="submit">Log in ↗</button>
+  <p class="form-foot">New to Gather? <a href="{{ url_for('register') }}">Create an account</a></p>
+</form></div>
+{% endblock %}

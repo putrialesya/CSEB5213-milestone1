@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ heading }} — Gather{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('admin_dashboard') }}">← Admin dashboard</a>
+<div class="form-page"><div><p class="eyebrow">CURATE THE LINEUP</p><h1 class="page-title">{{ heading }}<span>.</span></h1><p class="muted">Give people something worth showing up for.</p></div>
+<form class="form-card event-admin-form" method="post"><input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+<label>Event title<input name="title" required maxlength="150" value="{{ event.title if event else request.form.get('title','') }}"></label>
+<label>Description<textarea name="description" rows="4" required>{{ event.description if event else request.form.get('description','') }}</textarea></label>
+<label>Venue<input name="venue" required maxlength="200" value="{{ event.venue if event else request.form.get('venue','') }}"></label>
+<label>Date and time<input type="datetime-local" name="event_date" required value="{{ event.event_date if event else request.form.get('event_date','') }}"></label>
+<div class="form-two"><label>Ticket price (RM)<input type="number" name="price" min="0" step="0.01" required value="{{ event.price if event else request.form.get('price','') }}"></label><label>Capacity<input type="number" name="capacity" min="1" step="1" required value="{{ event.capacity if event else request.form.get('capacity','') }}"></label></div>
+<button class="button button-dark full" type="submit">Save event ↗</button></form></div>
+{% endblock %}
