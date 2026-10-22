@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}{{ event.name }}{% endblock %}
+{% block content %}<a class="back-link" href="{{ url_for('events.index') }}">← All events</a>
+<section class="detail-hero"><p class="eyebrow">{{ event.venue }} · {{ event.date }}</p><h1>{{ event.name }}</h1><p>{{ event.description }}</p></section>
+<div class="two-col"><section class="panel"><p class="eyebrow">ABOUT THIS EVENT</p><h2>Make a day of it.</h2><p>{{ event.description }}</p><p><strong>Date</strong><br>{{ event.date }}</p><p><strong>Venue</strong><br>{{ event.venue }}</p></section>
+<section class="panel"><p class="eyebrow">CHOOSE YOUR TICKET</p><h2>Ticket options</h2>
+{% for ticket in tickets %}<div class="ticket-row"><div><strong>{{ ticket.name }}</strong><p class="muted small">{{ ticket.quantity_available }} remaining</p></div><div class="ticket-price">RM {{ '%.2f'|format(ticket.price) }}</div></div>{% else %}<p>No ticket types have been added yet.</p>{% endfor %}
+{% if tickets %}<a class="button full" href="{{ url_for('bookings.book', event_id=event.event_id) }}">Book tickets</a>{% endif %}</section></div>{% endblock %}

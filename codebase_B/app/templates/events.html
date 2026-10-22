@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Discover events{% endblock %}
+{% block content %}
+<section class="hero"><p class="eyebrow">YOUR NEXT EXPERIENCE STARTS HERE</p><h1>Find something<br><span>worth going to.</span></h1><p>Discover live shows, festivals, and community events around Malaysia.</p>
+<form class="search" method="get"><input name="q" value="{{ keyword }}" placeholder="Search events, keywords, or venue"><button>Search events</button></form></section>
+<div class="section-heading"><div><p class="eyebrow">THE LINEUP</p><h2>Upcoming events</h2></div><span class="muted">{{ events|length }} event(s)</span></div>
+<div class="event-grid">
+{% for event in events %}<article class="event-card"><div class="event-art"><span class="art-chip">LIVE · IN PERSON</span><span class="art-mark">✳</span><span class="art-date">{{ event.date }}</span></div><div class="event-info"><p class="eyebrow">{{ event.venue }}</p><h3>{{ event.name }}</h3><p class="muted clamp">{{ event.description }}</p><a class="text-link" href="{{ url_for('events.detail', event_id=event.event_id) }}">Explore event <span>↗</span></a></div></article>
+{% else %}<div class="empty">No active events found. Try another keyword.</div>{% endfor %}
+</div>
+{% endblock %}

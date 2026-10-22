@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Book {{ event.name }}{% endblock %}{% block content %}
+<a class="back-link" href="{{ url_for('events.detail', event_id=event.event_id) }}">← Back to event</a><div class="section-heading"><div><p class="eyebrow">SECURE YOUR SPOT</p><h1>Book tickets</h1><p class="muted">{{ event.name }} · {{ event.date }}</p></div></div>
+<div class="two-col"><section class="panel"><h2>Attendee details</h2><form method="post" class="stack" id="booking-form">
+<label>Ticket type<select name="ticket_type_id" id="ticket-type" required>{% for t in tickets %}<option value="{{ t.ticket_type_id }}" data-price="{{ '%.2f'|format(t.price) }}" data-stock="{{ t.quantity_available }}" {% if t.quantity_available == 0 %}disabled{% endif %}>{{ t.name }} — RM {{ '%.2f'|format(t.price) }} ({{ t.quantity_available }} left)</option>{% endfor %}</select></label>
+<label>Quantity <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required></label>
+<div class="total-line"><span>Estimated total</span><strong id="total">RM 0.00</strong></div>
+<label>Attendee name<input name="attendee_name" required maxlength="100"></label><label>Attendee email<input type="email" name="attendee_email" required maxlength="254"></label>
+<hr><p class="eyebrow">SIMULATED PAYMENT</p><label>Payment method<select name="method"><option value="card">Credit / debit card (simulated)</option><option value="online_banking">Online banking (simulated)</option><option value="ewallet">E-wallet (simulated)</option></select></label>
+<label>Test payment result<select name="payment_result"><option value="success">Successful payment</option><option value="failed">Failed payment (test error flow)</option></select></label><p class="small muted">No real payment is taken. Do not enter real card details.</p><button class="full">Confirm and simulate payment</button></form></section>
+<aside class="panel summary"><p class="eyebrow">ORDER SUMMARY</p><h2>{{ event.name }}</h2><p class="muted">{{ event.date }} · {{ event.venue }}</p><div class="notice">Your booking is confirmed only if the simulated payment succeeds. Ticket availability is checked again when you submit.</div></aside></div>
+<script>
+(function(){const type=document.getElementById('ticket-type'),qty=document.getElementById('quantity'),total=document.getElementById('total');function update(){const o=type.options[type.selectedIndex];const price=Number(o?.dataset.price||0),stock=Number(o?.dataset.stock||0);qty.max=Math.min(10,stock);if(Number(qty.value)>Number(qty.max))qty.value=qty.max>0?qty.max:1;total.textContent='RM '+(price*Math.max(0,Number(qty.value)||0)).toFixed(2);}type.addEventListener('change',update);qty.addEventListener('input',update);update();})();
+</script>{% endblock %}
